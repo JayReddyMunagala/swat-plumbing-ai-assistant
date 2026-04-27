@@ -163,6 +163,17 @@ app.post('/voice/status', async (req, res) => {
   res.sendStatus(200);
 });
 
+// ── GET /test-claude — temporary diagnostic endpoint ─────────────────────────
+app.get('/test-claude', async (_req, res) => {
+  try {
+    const { generateResponse } = require('./claude');
+    const result = await generateResponse('My name is John', [], {});
+    res.json({ ok: true, responseText: result.responseText });
+  } catch (err) {
+    res.json({ ok: false, error: err.message, status: err.status, type: err.constructor.name });
+  }
+});
+
 // ── GET /health ──────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
   res.json({
