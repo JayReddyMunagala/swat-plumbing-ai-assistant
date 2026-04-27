@@ -165,7 +165,17 @@ app.post('/voice/status', async (req, res) => {
 
 // ── GET /health ──────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
-  res.json({ status: 'ok', activeCalls: activeCalls.size, timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    activeCalls: activeCalls.size,
+    timestamp: new Date().toISOString(),
+    env: {
+      ANTHROPIC_API_KEY: !!process.env.ANTHROPIC_API_KEY,
+      TWILIO_ACCOUNT_SID: !!process.env.TWILIO_ACCOUNT_SID,
+      GOOGLE_SHEETS_ID: !!process.env.GOOGLE_SHEETS_ID,
+      GOOGLE_SERVICE_ACCOUNT_JSON: !!process.env.GOOGLE_SERVICE_ACCOUNT_JSON,
+    },
+  });
 });
 
 // Clean up calls older than 2 hours that never sent a status webhook
