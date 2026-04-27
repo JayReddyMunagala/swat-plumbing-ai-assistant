@@ -185,6 +185,21 @@ app.get('/test-claude', async (_req, res) => {
   }
 });
 
+// ── GET /test-sheets — temporary diagnostic endpoint ──────────────────────────
+app.get('/test-sheets', async (_req, res) => {
+  try {
+    await saveCallRecord({
+      callSid: 'RAILWAY-TEST', callerNumber: '+10000000000',
+      name: 'Railway Test', phone: null, address: null, issue: null,
+      when_started: null, urgency: null, notes: null,
+      callStatus: 'test', callDuration: '', startTime: new Date().toISOString(), endTime: '',
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    res.json({ ok: false, error: err.message });
+  }
+});
+
 // ── GET /health ──────────────────────────────────────────────────────────────
 app.get('/health', (_req, res) => {
   res.json({
