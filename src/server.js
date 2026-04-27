@@ -110,6 +110,17 @@ app.post('/voice/gather', async (req, res) => {
       }
     }
 
+    // Save partial data to Sheets after every turn so nothing is lost
+    saveCallRecord({
+      ...extractCallData(callState.history, callState.extractedData),
+      callSid: CallSid,
+      callerNumber: callState.callerNumber,
+      callStatus: 'in-progress',
+      callDuration: '',
+      startTime: callState.startTime,
+      endTime: '',
+    }).catch((err) => console.error(`[${CallSid}] Mid-call Sheets save failed:`, err.message));
+
     if (updatedData.complete === true) {
       twiml.say({ voice: VOICE }, responseText);
       twiml.pause({ length: 1 });
