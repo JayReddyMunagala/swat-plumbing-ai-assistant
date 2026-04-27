@@ -2,7 +2,8 @@
 
 const { google } = require('googleapis');
 
-const SHEET_TAB = process.env.GOOGLE_SHEET_TAB || 'Call Records';
+const RAW_TAB = process.env.GOOGLE_SHEET_TAB || 'Call Records';
+const SHEET_TAB = RAW_TAB.includes(' ') ? `'${RAW_TAB}'` : RAW_TAB;
 
 const HEADERS = [
   'Timestamp',
